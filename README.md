@@ -1,75 +1,37 @@
-# 📌 Task 1: CI/CD Pipeline Automation (GitHub Actions + Docker)
+# 📌 Task 1: Automate Code Deployment Using CI/CD Pipeline (GitHub Actions)
 
-Automated CI/CD pipeline built for **TaskPulse** — a React web application designed for personal daily task alerts and focus tracking. Every push to the `main` branch automatically tests, builds, and deploys the containerized application directly to **DockerHub**.
-
----
-
-## 🎯 What I Did
-- **Frontend App:** Built an interactive React application ("Personal DailyTask Alert") with custom Web Audio synthesized chimes, live countdown timers, and glowing priority alerts (`CRITICAL`, `HIGH`, `MEDIUM`).
-- **Automated Testing:** Implemented automated unit tests with Vitest & React Testing Library (`npm test`). Tests run and pass before any build occurs.
-- **Dockerization:** Packaged the application into a lightweight multi-stage `Dockerfile` (`node:22-alpine` ➔ `nginx:alpine`) with Gzip compression, SPA routing, and health checks.
-- **CI/CD Pipeline:** Authored `.github/workflows/main.yml` with 4 automated stages triggered on pushes to `main`:
-  1. **Test & Lint:** Validates code quality and runs unit tests in Node 22 LTS.
-  2. **Build:** Compiles the production bundle and preserves build artifacts.
-  3. **Docker Build & Push:** Authenticates via GitHub Secrets and pushes tagged images (`latest`, `commit-sha`) to DockerHub.
-  4. **Deployment Status:** Generates a release report in GitHub Actions summary.
+Automated end-to-end CI/CD pipeline built for **TaskPulse** — a modern React web application featuring a unique **"personal-dailytask" alert engine**. Every push to the `main` branch automatically tests, builds, and deploys the containerized application directly to **DockerHub**.
 
 ---
 
-## 🛠️ Tech Stack
-- **Frontend:** React 19, Vite, Vanilla CSS Glassmorphism, Lucide Icons
-- **Testing:** Vitest, React Testing Library
-- **DevOps & Containers:** Docker, Docker Compose, Nginx Alpine
-- **CI/CD:** GitHub Actions, DockerHub Registry
+## ⚙️ Working Procedure: Automate Code Deployment (CI/CD Pipeline)
+
+The automated deployment pipeline ([`.github/workflows/main.yml`](.github/workflows/main.yml)) operates through 4 distinct stages on every push to `main`:
+
+1. **Stage 1: Automated Unit Testing & Linting (`test-and-lint`)**
+   - Spins up an isolated Ubuntu runner with Node.js 22 LTS.
+   - Installs clean dependencies via `npm ci` with caching.
+   - Executes the automated Vitest test suite (`npm test`). If any test fails, the pipeline immediately halts to prevent faulty code from being built or deployed.
+
+2. **Stage 2: Production Bundle Compilation (`build-application`)**
+   - Runs `npm run build` using Vite.
+   - Compiles and minifies HTML, CSS, and JS into high-performance static assets.
+   - Uploads the production `dist/` bundle as an artifact for 7 days retention.
+
+3. **Stage 3: Docker Build & Push to DockerHub (`docker-build-and-push`)**
+   - Sets up QEMU (multi-platform support) and Docker Buildx.
+   - Authenticates securely to DockerHub using encrypted repository secrets (`DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`).
+   - Builds the multi-stage Docker image and pushes tags:
+     - `sudarshnachand/personal-dailytask-alert:latest`
+     - `sudarshnachand/personal-dailytask-alert:<commit-sha>`
+   - Leverages GitHub Actions layer caching (`type=gha`) for ultra-fast builds.
+
+4. **Stage 4: Continuous Deployment Status (`deployment-status`)**
+   - Publishes a verified deployment report to the GitHub Actions Job Summary showing the commit hash, branch, and DockerHub image URL.
 
 ---
 
-## ⚡ Quick Start (Local Run)
-
-### 1. Development Server
-```bash
-npm install
-npm run dev
-# App runs at: http://localhost:5173
-```
-
-### 2. Run Automated Unit Tests
-```bash
-npm test
-```
-
-### 3. Run with Docker
-```bash
-# Option A: Using Docker Compose
-docker compose up --build
-
-# Option B: Using Docker CLI
-docker build -t personal-dailytask-alert .
-docker run -d -p 8080:80 personal-dailytask-alert
-# App runs at: http://localhost:8080 (Health check: http://localhost:8080/health)
-```
-
----
-
-## 🚀 GitHub Actions & DockerHub Deployment
-
-1. **Push to GitHub:**
-   ```bash
-   git remote add origin https://github.com/SUDARSHNACHAND/nodejs-demo-app.git
-   git push -u origin main
-   ```
-
-2. **Add GitHub Secrets** (`Settings` ➔ `Secrets and variables` ➔ `Actions`):
-   - `DOCKERHUB_USERNAME`: Your DockerHub username
-   - `DOCKERHUB_TOKEN`: DockerHub Personal Access Token (PAT)
-
-3. **Pipeline Executes Automatically:**
-   - Every push to `main` triggers: **Test ➔ Build ➔ Push to DockerHub ➔ Deploy Summary**.
-   - Published container image: `docker.io/<DOCKERHUB_USERNAME>/personal-dailytask-alert:latest`.
-
----
-
-## 📸 Screenshots & Proof of Work
+## 📸 Project Proof & Screenshots (Visual Evidence)
 
 ### 1. Application Dashboard (TaskPulse Daily Alert Engine)
 ![Dashboard Overview](screenshots/1_app_dashboard.png)
@@ -77,8 +39,70 @@ docker run -d -p 8080:80 personal-dailytask-alert
 ### 2. Active Alert Trigger & Audio Chime Modal
 ![Alert Modal & Banner](screenshots/2_alert_modal.png)
 
-### 3. GitHub Actions CI/CD Pipeline (Automated Workflow)
+### 3. GitHub Actions CI/CD Pipeline (All Stages Passing Green ✅)
 ![GitHub Actions Pipeline](screenshots/3_github_actions_pipeline.png)
 
-### 4. DockerHub Image Repository (Published Container)
+### 4. DockerHub Image Repository (Published Container Image)
 ![DockerHub Registry](screenshots/4_dockerhub_repository.png)
+
+---
+
+## 🐳 View & Run Docker Image on Any System
+
+Anyone on **any operating system** (Windows, macOS, Linux, or Cloud VM) can run and view the live **"personal-dailytask"** web application directly from DockerHub without needing Node.js or Git installed:
+
+### 1. Run Container from DockerHub
+```bash
+docker run -d -p 8080:80 --name personal-dailytask sudarshnachand/personal-dailytask-alert:latest
+```
+
+### 2. Open in Your Browser
+- Web Application: **[http://localhost:8080](http://localhost:8080)**
+- Service Health Endpoint: **[http://localhost:8080/health](http://localhost:8080/health)**
+
+### 3. Container Management Commands
+```bash
+# View running container status
+docker ps
+
+# Check Nginx access and error logs
+docker logs personal-dailytask
+
+# Stop and remove container when done
+docker stop personal-dailytask && docker rm personal-dailytask
+```
+
+### 🏗️ How the Docker Architecture Works:
+- **Build Stage (`node:22-alpine`):** Compiles the React SPA using Vite into static production bundles.
+- **Serve Stage (`nginx:alpine`):** Lightweight, secure Nginx web server configured with:
+  - **Gzip Compression:** Fast asset delivery.
+  - **SPA Routing:** Fallback handling (`try_files $uri /index.html`) for client-side routing.
+  - **Security Headers:** `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `X-XSS-Protection: 1; mode=block`.
+  - **Health Monitoring:** Dedicated `/health` endpoint returning `HTTP 200 OK` for uptime monitors.
+
+---
+
+## 🛠️ Technology Stack
+- **Frontend Framework:** React 19, Vite, Vanilla CSS Glassmorphism, Lucide Icons
+- **Audio Engine:** HTML5 Web Audio API synthesizer for alert chimes (zero MP3 dependencies)
+- **Unit Testing:** Vitest, React Testing Library, Happy-DOM
+- **Containerization:** Docker (Multi-stage build), Nginx Alpine
+- **CI/CD Automation:** GitHub Actions, DockerHub Container Registry
+
+---
+
+## 💻 Local Development Commands
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Run local dev server (http://localhost:5173)
+npm run dev
+
+# 3. Run automated unit tests
+npm test
+
+# 4. Compile production build
+npm run build
+```
