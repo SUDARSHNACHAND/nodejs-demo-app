@@ -1,0 +1,12 @@
+services:
+  personal-dailytask-alert:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: personal-dailytask-alert:latest
+    container_name: personal-dailytask-alert-app
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
