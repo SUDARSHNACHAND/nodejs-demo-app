@@ -60,12 +60,13 @@ docker pull sudarshnachand/personal-dailytask-alert:latest
 
 ### Step 2: Run the Container
 ```bash
-docker run -d -p 8080:80 --name personal-dailytask sudarshnachand/personal-dailytask-alert:latest
+# Run on port 8085 (recommended to avoid port 8080 collision)
+docker run -d -p 8085:80 --name personal-dailytask sudarshnachand/personal-dailytask-alert:latest
 ```
 
 ### Step 3: Open in Any Browser
-- **Live Web Application:** [http://localhost:8080](http://localhost:8080)
-- **Service Health Check:** [http://localhost:8080/health](http://localhost:8080/health)
+- **Live Web Application:** [http://localhost:8085](http://localhost:8085)
+- **Service Health Check:** [http://localhost:8085/health](http://localhost:8085/health)
 
 ### 📋 Useful Container Commands
 ```bash
