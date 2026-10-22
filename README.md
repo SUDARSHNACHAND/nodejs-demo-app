@@ -47,28 +47,35 @@ The automated deployment pipeline ([`.github/workflows/main.yml`](.github/workfl
 
 ---
 
-## 🐳 View & Run Docker Image on Any System
+## 🐳 DockerHub Repository & Universal Run Guide ("personal-dailytask-alert")
 
-Anyone on **any operating system** (Windows, macOS, Linux, or Cloud VM) can run and view the live **"personal-dailytask"** web application directly from DockerHub without needing Node.js or Git installed:
+> **Official DockerHub Image:** [hub.docker.com/r/sudarshnachand/personal-dailytask-alert](https://hub.docker.com/r/sudarshnachand/personal-dailytask-alert)
 
-### 1. Run Container from DockerHub
+Anyone on **any operating system** (Windows, macOS, Linux, or Cloud VM) can pull, run, and view the live **"personal-dailytask"** web application directly from DockerHub with zero setup (no Node.js or Git required):
+
+### Step 1: Pull the Docker Image
+```bash
+docker pull sudarshnachand/personal-dailytask-alert:latest
+```
+
+### Step 2: Run the Container
 ```bash
 docker run -d -p 8080:80 --name personal-dailytask sudarshnachand/personal-dailytask-alert:latest
 ```
 
-### 2. Open in Your Browser
-- Web Application: **[http://localhost:8080](http://localhost:8080)**
-- Service Health Endpoint: **[http://localhost:8080/health](http://localhost:8080/health)**
+### Step 3: Open in Any Browser
+- **Live Web Application:** [http://localhost:8080](http://localhost:8080)
+- **Service Health Check:** [http://localhost:8080/health](http://localhost:8080/health)
 
-### 3. Container Management Commands
+### 📋 Useful Container Commands
 ```bash
-# View running container status
+# Check running container status
 docker ps
 
-# Check Nginx access and error logs
+# View container logs
 docker logs personal-dailytask
 
-# Stop and remove container when done
+# Stop and cleanup container
 docker stop personal-dailytask && docker rm personal-dailytask
 ```
 
