@@ -22,10 +22,10 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js Runtime
+      - name: Set up Node.js Runtime (Node 22 LTS)
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install Dependencies
@@ -46,10 +46,10 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js Runtime
+      - name: Set up Node.js Runtime (Node 22 LTS)
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install Dependencies
@@ -72,7 +72,6 @@ jobs:
     name: Build & Push Docker Image
     needs: build-application
     runs-on: ubuntu-latest
-    # Only push images to DockerHub when changes are merged/pushed into main branch
     if: github.ref == 'refs/heads/main'
 
     steps:

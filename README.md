@@ -9,7 +9,7 @@ Automated CI/CD pipeline built for **TaskPulse** — a React web application des
 - **Automated Testing:** Implemented automated unit tests with Vitest & React Testing Library (`npm test`). Tests run and pass before any build occurs.
 - **Dockerization:** Packaged the application into a lightweight multi-stage `Dockerfile` (`node:22-alpine` ➔ `nginx:alpine`) with Gzip compression, SPA routing, and health checks.
 - **CI/CD Pipeline:** Authored `.github/workflows/main.yml` with 4 automated stages triggered on pushes to `main`:
-  1. **Test & Lint:** Validates code quality and runs unit tests in Node 20.
+  1. **Test & Lint:** Validates code quality and runs unit tests in Node 22 LTS.
   2. **Build:** Compiles the production bundle and preserves build artifacts.
   3. **Docker Build & Push:** Authenticates via GitHub Secrets and pushes tagged images (`latest`, `commit-sha`) to DockerHub.
   4. **Deployment Status:** Generates a release report in GitHub Actions summary.
@@ -55,7 +55,7 @@ docker run -d -p 8080:80 personal-dailytask-alert
 
 1. **Push to GitHub:**
    ```bash
-   git remote add origin https://github.com/<YOUR_USERNAME>/personal-dailytask-alert.git
+   git remote add origin https://github.com/SUDARSHNACHAND/GitHub-Actions_W1T1.git
    git push -u origin main
    ```
 
@@ -69,10 +69,16 @@ docker run -d -p 8080:80 personal-dailytask-alert
 
 ---
 
-## 📸 Screenshots & Evidence
+## 📸 Screenshots & Proof of Work
 
-Place your submission screenshots in the [`./screenshots/`](./screenshots/) folder using these file names:
-- `screenshots/1_app_dashboard.png` — Main dashboard with live clock & task countdowns
-- `screenshots/2_alert_modal.png` — Active alert popup & audio chime simulator
-- `screenshots/3_github_actions_pipeline.png` — Passing 4-stage GitHub Actions workflow
-- `screenshots/4_dockerhub_repository.png` — Published image repository on DockerHub
+### 1. Application Dashboard (TaskPulse Daily Alert Engine)
+![Dashboard Overview](screenshots/1_app_dashboard.png)
+
+### 2. Active Alert Trigger & Audio Chime Modal
+![Alert Modal & Banner](screenshots/2_alert_modal.png)
+
+### 3. GitHub Actions CI/CD Pipeline (Automated Workflow)
+![GitHub Actions Pipeline](screenshots/3_github_actions_pipeline.png)
+
+### 4. DockerHub Image Repository (Published Container)
+![DockerHub Registry](screenshots/4_dockerhub_repository.png)
