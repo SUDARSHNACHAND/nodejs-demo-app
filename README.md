@@ -55,7 +55,7 @@ docker run -d -p 8080:80 personal-dailytask-alert
 
 1. **Push to GitHub:**
    ```bash
-   git remote add origin https://github.com/SUDARSHNACHAND/GitHub-Actions_W1T1.git
+   git remote add origin https://github.com/SUDARSHNACHAND/nodejs-demo-app.git
    git push -u origin main
    ```
 
