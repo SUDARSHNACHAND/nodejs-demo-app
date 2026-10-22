@@ -58,9 +58,10 @@ Anyone on **any operating system** (Windows, macOS, Linux, or Cloud VM) can pull
 docker pull sudarshnachand/personal-dailytask-alert:latest
 ```
 
-### Step 2: Run the Container
+### Step 2: Run the Container (Conflict-Free Setup)
 ```bash
-# Run on port 8085 (recommended to avoid port 8080 collision)
+# Clean up any existing container and launch on port 8085:
+docker rm -f personal-dailytask
 docker run -d -p 8085:80 --name personal-dailytask sudarshnachand/personal-dailytask-alert:latest
 ```
 
