@@ -84,8 +84,8 @@ describe('TaskPulse App - Personal DailyTask Alert Engine', () => {
     const titleInput = screen.getByLabelText(/Task Title \*/i);
     fireEvent.change(titleInput, { target: { value: 'Complete Elevate Lab CI/CD Project' } });
 
-    const submitBtn = screen.getByText(/Create Task & Set Alert/i);
-    fireEvent.click(submitBtn);
+    const form = screen.getByRole('dialog').querySelector('form');
+    fireEvent.submit(form);
 
     expect(screen.getByText('Complete Elevate Lab CI/CD Project')).toBeInTheDocument();
   });
